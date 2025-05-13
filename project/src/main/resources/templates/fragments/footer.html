@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <footer th:fragment="footer" class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-md-12">
+                    <h3>Book Management System</h3>
+                    <p>A simple Spring Boot application for managing authors and their books.</p>
+                </div>
+                <div class="col-6 col-md-12">
+                    <h3>Quick Links</h3>
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="/books" class="nav-link">Books</a></li>
+                        <li class="nav-item"><a href="/authors" class="nav-link">Authors</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p>&copy; 2025 Book Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${book.title} + ' - Book Management System'"></title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="main">
+        <div class="container">
+            <div class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/books}">Books</a></li>
+                <li class="breadcrumb-item" th:text="${book.title}"></li>
+            </div>
+
+            <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+            <div class="card slide-up">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="card-title" th:text="${book.title}"></h2>
+                        <div>
+                            <a th:href="@{/books/{id}/edit(id=${book.id})}" class="btn btn-primary btn-sm mr-1">Edit</a>
+                            <a th:href="@{/books/{id}/delete(id=${book.id})}" class="btn btn-danger btn-sm">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4 col-md-12">
+                            <div class="book-cover mb-4" style="height: 300px;">
+                                <h1 th:text="${#strings.substring(book.title, 0, 1)}"></h1>
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <h3 class="mb-3">Book Details</h3>
+                            <dl>
+                                <dt>Author:</dt>
+                                <dd>
+                                    <a th:if="${book.author}" th:href="@{/authors/{id}(id=${book.author.id})}" th:text="${book.author.name}"></a>
+                                    <span th:unless="${book.author}">Unknown</span>
+                                </dd>
+                                
+                                <dt>ISBN:</dt>
+                                <dd th:text="${book.isbn}"></dd>
+                                
+                                <dt>Publication Date:</dt>
+                                <dd th:text="${#temporals.format(book.publicationDate, 'MMMM dd, yyyy')}"></dd>
+                                
+                                <dt th:if="${book.pageCount}">Page Count:</dt>
+                                <dd th:if="${book.pageCount}" th:text="${book.pageCount}"></dd>
+                                
+                                <dt>Description:</dt>
+                                <dd th:text="${book.description ?: 'No description available'}"></dd>
+                            </dl>
+                            
+                            <div class="mt-4">
+                                <a th:href="@{/books}" class="btn btn-secondary mr-2">Back to Books</a>
+                                <a th:if="${book.author}" th:href="@{/authors/{id}(id=${book.author.id})}" class="btn btn-accent">
+                                    View Author
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

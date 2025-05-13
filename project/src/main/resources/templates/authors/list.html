@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authors - Book Management System</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="main">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Authors</h1>
+                <a th:href="@{/authors/new}" class="btn btn-primary">Add New Author</a>
+            </div>
+
+            <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+            <form th:action="@{/authors}" method="get" class="search-form mb-4">
+                <input 
+                    type="text" 
+                    class="form-control search-input" 
+                    name="search" 
+                    placeholder="Search authors..." 
+                    th:value="${search}"
+                >
+                <button type="submit" class="btn btn-primary search-button">Search</button>
+            </form>
+
+            <div th:if="${#lists.isEmpty(authors)}" class="alert alert-info">
+                <p>No authors found. Please add a new author or adjust your search.</p>
+            </div>
+
+            <div class="row">
+                <div th:each="author : ${authors}" class="col-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card author-list-item fade-in">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="author-avatar mr-3">
+                                    <h2 th:text="${#strings.substring(author.name, 0, 1)}"></h2>
+                                </div>
+                                <div>
+                                    <h3 class="mb-1">
+                                        <a th:href="@{/authors/{id}(id=${author.id})}" th:text="${author.name}"></a>
+                                    </h3>
+                                    <p th:if="${author.nationality}" th:text="${author.nationality}" class="mb-0 text-muted"></p>
+                                </div>
+                            </div>
+                            
+                            <p th:if="${author.biography}" th:text="${#strings.abbreviate(author.biography, 120)}"></p>
+                            
+                            <div class="d-flex justify-content-between mt-3">
+                                <a th:href="@{/authors/{id}(id=${author.id})}" class="btn btn-secondary btn-sm">View Details</a>
+                                <div>
+                                    <a th:href="@{/authors/{id}/edit(id=${author.id})}" class="btn btn-primary btn-sm mr-1">Edit</a>
+                                    <a th:href="@{/authors/{id}/delete(id=${author.id})}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

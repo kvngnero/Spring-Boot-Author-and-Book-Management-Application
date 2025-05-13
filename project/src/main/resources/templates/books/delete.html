@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Book - Book Management System</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="main">
+        <div class="container">
+            <div class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/books}">Books</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.title}"></a></li>
+                <li class="breadcrumb-item">Delete</li>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Delete Book</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h3 th:text="${book.title}"></h3>
+                        <p>
+                            <strong>Author:</strong> 
+                            <a th:if="${book.author}" th:href="@{/authors/{id}(id=${book.author.id})}" th:text="${book.author.name}"></a>
+                            <span th:unless="${book.author}">Unknown</span>
+                        </p>
+                        <p><strong>ISBN:</strong> <span th:text="${book.isbn}"></span></p>
+                        <p><strong>Publication Date:</strong> <span th:text="${#temporals.format(book.publicationDate, 'MMMM dd, yyyy')}"></span></p>
+                        <p th:if="${book.description}" th:text="${book.description}"></p>
+                    </div>
+
+                    <p class="text-danger">Are you sure you want to delete this book? This action cannot be undone.</p>
+
+                    <form th:action="@{/books/{id}/delete(id=${book.id})}" method="post">
+                        <div class="d-flex mt-3">
+                            <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-secondary mr-2">Cancel</a>
+                            <button type="submit" class="btn btn-danger">Delete Book</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
